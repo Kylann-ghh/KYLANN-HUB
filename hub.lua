@@ -314,3 +314,85 @@ boostButton.BackgroundColor3 = Color3.fromRGB(0, 80, 0)
 boostButton.Text = "Boost FPS"
 boostButton.Font = Enum.Font.Goth
                 
+local player = game.Players.LocalPlayer
+local character = player.Character or player.CharacterAdded:Wait()
+local screenGui = Instance.new("ScreenGui", game:GetService("CoreGui"))
+screenGui.Name = "MozilHubUI"
+
+local mainFrame = Instance.new("Frame", screenGui)
+mainFrame.Size = UDim2.new(0, 500, 0, 300)
+mainFrame.Position = UDim2.new(0.5, -250, 0.5, -150)
+mainFrame.BackgroundColor3 = Color3.fromRGB(25, 25, 25)
+mainFrame.BorderSizePixel = 0
+
+local tabFrame = Instance.new("Frame", mainFrame)
+tabFrame.Size = UDim2.new(0, 120, 1, 0)
+tabFrame.BackgroundColor3 = Color3.fromRGB(35, 35, 35)
+
+local contentFrame = Instance.new("Frame", mainFrame)
+contentFrame.Position = UDim2.new(0, 120, 0, 0)
+contentFrame.Size = UDim2.new(1, -120, 1, 0)
+contentFrame.BackgroundColor3 = Color3.fromRGB(45, 45, 45)
+                local tabs = {"Auto Farm", "Téléportation", "ESP", "Stats", "Mer", "Paramètres"}
+local tabButtons = {}
+local tabContents = {}
+
+for i, tabName in ipairs(tabs) do
+    -- Crée le bouton
+    local button = Instance.new("TextButton", tabFrame)
+    button.Size = UDim2.new(1, 0, 0, 40)
+    button.Position = UDim2.new(0, 0, 0, (i - 1) * 45)
+    button.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
+    button.Text = tabName
+    button.Font = Enum.Font.GothamBold
+    button.TextColor3 = Color3.new(1, 1, 1)
+    button.TextSize = 14
+    tabButtons[tabName] = button
+
+    -- Crée le contenu du tab
+    local content = Instance.new("Frame", contentFrame)
+    content.Size = UDim2.new(1, 0, 1, 0)
+    content.Visible = i == 1
+    content.BackgroundTransparency = 1
+    tabContents[tabName] = content
+
+    button.MouseButton1Click:Connect(function()
+        for _, c in pairs(tabContents) do c.Visible = false end
+        content.Visible = true
+    end)
+                end
+local farmTab = tabContents["Auto Farm"]
+
+local function createButton(parent, text, callback, posY)
+    local button = Instance.new("TextButton", parent)
+    button.Size = UDim2.new(0, 200, 0, 40)
+    button.Position = UDim2.new(0, 20, 0, posY)
+    button.BackgroundColor3 = Color3.fromRGB(60, 60, 60)
+    button.Text = text
+    button.Font = Enum.Font.Gotham
+    button.TextColor3 = Color3.new(1, 1, 1)
+    button.TextSize = 14
+    button.MouseButton1Click:Connect(callback)
+end
+
+local autofarm = false
+
+createButton(farmTab, "Activer Auto Farm", function()
+    autofarm = not autofarm
+end, 20)
+
+spawn(function()
+    while true do
+        wait(1)
+        if autofarm then
+            pcall(function()
+                local enemy = workspace.Enemies:FindFirstChildOfClass("Model")
+                if enemy then
+                    character.HumanoidRootPart.CFrame = enemy.HumanoidRootPart.CFrame * CFrame.new(0, 0, 2)
+                    game:GetService("VirtualInputManager"):SendKeyEvent(true, "Z", false, game)
+                end
+            end)
+        end
+    end
+end)
+                
