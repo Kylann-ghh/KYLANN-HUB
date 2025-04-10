@@ -289,4 +289,28 @@ local seaToggle = Instance.new("TextButton")
 seaToggle.Parent = autoFarmTab
 seaToggle.Size = UDim2.new(0, 200, 0, 40)
 seaToggle.Position = UDim2.new(0
+-- === PARTIE 8 : Paramètres / Crédits / FPS Boost / Rejoin ===
+
+-- Boost FPS
+local function boostFPS()
+    for _, v in pairs(game:GetDescendants()) do
+        if v:IsA("BasePart") and v.Material ~= Enum.Material.SmoothPlastic then
+            v.Material = Enum.Material.SmoothPlastic
+        elseif v:IsA("Decal") then
+            v.Transparency = 1
+        elseif v:IsA("ParticleEmitter") or v:IsA("Trail") then
+            v.Enabled = false
+        end
+    end
+    sethiddenproperty(game:GetService("Lighting"), "Technology", Enum.Technology.Compatibility)
+end
+
+-- FPS Boost Button
+local boostButton = Instance.new("TextButton")
+boostButton.Parent = settingsTab
+boostButton.Size = UDim2.new(0, 200, 0, 40)
+boostButton.Position = UDim2.new(0, 20, 0, 20)
+boostButton.BackgroundColor3 = Color3.fromRGB(0, 80, 0)
+boostButton.Text = "Boost FPS"
+boostButton.Font = Enum.Font.Goth
                 
