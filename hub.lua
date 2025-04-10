@@ -1,3 +1,13 @@
+local gui = Instance.new("ScreenGui")
+gui.Name = "MozilHub"
+gui.ResetOnSpawn = false
+gui.Parent = game:GetService("CoreGui")
+local main = Instance.new("Frame")
+main.Size = UDim2.new(0, 500, 0, 300)
+main.Position = UDim2.new(0.5, -250, 0.5, -150)
+main.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+main.Parent = gui
+
 -- MOZIL HUB v2 - Hoho Style + Thème One Piece
 
 local MozilGui = Instance.new("ScreenGui")
